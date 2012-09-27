@@ -1,0 +1,37 @@
+[{
+	"name": "Education",
+	"data": "education"
+},{
+	"name": "Entertainment",
+	"data": "entertainment"
+},{
+	"name": "Financial",
+	"data": "financial"
+},{
+	"name": "Games",
+	"data": "games"
+},{
+	"name": "Health",
+	"data": "eealth"
+},{
+	"name": "Music",
+	"data": "music"
+},{
+	"name": "News and Weather",
+	"data": "news_weather"
+},{
+	"name": "Photography",
+	"data": "photography"
+},{
+	"name": "Productivity",
+	"data": "productivity"
+},{
+	"name": "Shopping",
+	"data": "shopping"
+},{
+	"name": "Social",
+	"data": "social"
+},{
+	"name": "Utilities",
+	"data": "utilities"
+}]
