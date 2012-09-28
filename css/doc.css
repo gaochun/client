@@ -2,6 +2,7 @@ body {
   position: relative;
   padding-top: 40px;
   overflow-y: scroll;
+  /*font-family: "Trebuchet MS", "Helvetica", "Arial", "Verdana", "sans-serif";*/
 }
 
 .rt24-mode {
@@ -155,11 +156,11 @@ body {
 }
 
 .rt24-app-des {
-  margin-top: 6px;
+  margin-top: 10px;
   padding-right: 10px;
   line-height: 16px;
   font-size: 11px;
-  height: 70px;
+  height: 80px;
   color: #76767D;
 }
 
@@ -167,13 +168,9 @@ body {
   width: 100%;
 }
 
-/*.rt24-btn-add button {
-
-  padding: 0;
-  width: 100px;
-  height: 20px;
-  line-height: 20px;
-}*/
+.rt24-btn-add button {
+  width: 70px;
+}
 
 .row-fluid .rt24-thumb  img{
   height: 160px;

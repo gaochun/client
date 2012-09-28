@@ -7,6 +7,11 @@ $(function () {
       available: "available",
       installed: "installed",
       updates: "updates"
+    },
+    Css: {
+      install: 'btn-success',
+      update: 'btn-warning',
+      disable: 'disabled'
     }
   };
   
@@ -27,8 +32,10 @@ $(function () {
   };
   
   var onBtnInstallClick = function() {
+    if ($(this).hasClass(Rt24.Css.disable))
+      return;
     var name = $(this).parent().prev().prev().find('.rt24-app-name').children().eq(0).html();
-    var appid = $(this).attr('appid');
+    var appid = $(this).parent().parent().parent().attr('appid');
     var url = Rt24.serverUrl + '/bin/' + appid + '/' + appid + '.crx';
     document.getElementById('plugin').install(url, name, function(result) {
       if (!result) {
@@ -50,9 +57,20 @@ $(function () {
         instance = instance.replace(re, data[i][key]);
       }
       instance = instance.replace(new RegExp('\\${server_url}', 'g'), Rt24.serverUrl);
+      instance = instance.replace(new RegExp('\\${btn_css}', 'g'), Rt24.Css.install);
       $(instance).appendTo(target);
     }
     return target.children();
+  };
+  
+  var showUpdateBtn = function(apps) {
+    for(var i in apps){
+      $('ul.thumbnails > li[appid='+apps[i].id+']').find('.btn-mini')
+      .removeClass(Rt24.Css.install)
+      .removeClass(Rt24.Css.disable)
+      .addClass(Rt24.Css.update)
+      .text('UPDATE');
+    }
   };
   
   var loadApps = function(category, title) {
@@ -74,6 +92,18 @@ $(function () {
     
           var header = $('<h2>'+title+' <small>'+apps.length+' Applications</small></h2>');
           $('div.page-header').children().replaceWith(header);
+          
+          if (chrome && chrome.management) {
+            chrome.management.getAll(function(apps) {
+              for (var i in apps) {
+                var btn = $('ul.thumbnails > li[appid='+apps[i].id+']').find('.btn-mini');
+                if (!btn.hasClass(Rt24.Css.update))
+                  btn.removeClass(Rt24.Css.install).addClass(Rt24.Css.disable).text('INSTALLED');
+              };
+            });
+          }
+          
+          showUpdateBtn(Rt24.updateList);
           appGrid.fadeIn(1000);
         },
         error: function() { console.log('Get app failed'); }
@@ -118,6 +148,34 @@ $(function () {
   var onUpdatesNotified = function(apps) {
     var count = apps.length;
     $('div.navbar-fixed-top').find('ul.nav').children().eq(1).children().html('Updates('+count+')');
+    
+    if (Rt24.mode == Rt24.Mode.available) {
+      showUpdateBtn(apps);
+    } else if (Rt24.mode == Rt24.Mode.updates) {
+      var appGrid = $('ul.thumbnails');
+      appGrid.fadeOut(100);
+      appGrid.children().remove();
+      
+      var appItems = new Array();
+      var count = 0;
+      for(var i in apps){
+        chrome.management.get(apps[i].id, function(app){
+          var appItem = {
+            app_id: app.id,
+            app_name: app.name,
+            version: apps[i].version,
+            description: app.description,
+            server_url: Rt24.serverUrl
+          }
+          appItems.push(appItem);
+          if (++count == apps.length) {
+            renderTemplate('updateTmpl', appItems, appGrid).mouseenter(onMouseEnterTile);
+            appGrid.fadeIn();
+          }
+        });
+      }
+    }
+    Rt24.updateList = apps;
   };
   
   // Bind chrome events.
@@ -134,11 +192,17 @@ $(function () {
     
     $(this).parent().parent().children().removeClass("active");
     $(this).parent().addClass("active");
-    if ($(this).parent().index() == 0) {
+    var index = $(this).parent().index();
+    if (index == 0) {
+      Rt24.mode = Rt24.Mode.avaliable;
+      
       var item = $('ul.rt24-nav > li.active').children();
       var category = item.attr('category');
       var title = item.html();
       loadApps(category, title);
+    } else if (index == 1) {
+      Rt24.mode = Rt24.Mode.updates;
+      loadUpdates();
     }
   });
   

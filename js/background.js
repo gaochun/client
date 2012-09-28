@@ -1,11 +1,8 @@
-﻿Updater = {
-  firstDetectTime : 10 * 1000,
-  /*10s after start runtime*/
-  timeInterval : 60 * 60 * 1000,
-  /*1 hour.*/
+Updater = {
+  firstDetectTime : 10 * 1000, /*10s after start runtime*/
+  timeInterval : 60 * 60 * 1000, /*1 hour.*/
   timeoutValue : 5 * 1000,
-  checkUrl : "http://wrt-server.sh.intel.com/service/update2/crx",
-  googleCheckUrl : "http://clients2.google.com/service/update2/crx",
+  checkUrl: "http://wrt-server.sh.intel.com/check_update",
   showNotification : true,
   
   checkUpdate : function (manual) {
@@ -17,23 +14,12 @@
       var param = "";
       var paramForGoogle = "";
       for (var i in results) {
-        if (results[i].isApp) {
-          if (results[i].id == 'licffdjdbhojjgheefcjeddlepijjoee')
-            continue;
-          if (typeof(results[i].updateUrl) != "undefined") {
-            var a = results[i].updateUrl.substr(0, Updater.googleCheckUrl.length);
-            a = "";
-          }
-          if (typeof(results[i].updateUrl) == "undefined" ||
-            results[i].updateUrl.substr(0, Updater.googleCheckUrl.length) != Updater.googleCheckUrl)
-            param += 'x=id%3D' + results[i].id + '%26v%3D' + results[i].version + '%26uc' + '&';
-          else
-            paramForGoogle += 'x=id%3D' + results[i].id + '%26v%3D' + results[i].version + '%26uc' + '&';
+        if (results[i].isApp && results[i].id != 'licffdjdbhojjgheefcjeddlepijjoee') {
+          param += 'x=id%3D' + results[i].id + '%26v%3D' + results[i].version + '%26uc' + '&';
         }
       };
       
-      var apps = [];
-      
+      var apps = [];      
       function requsetUpdateManifest(url, params) {
         var xhr = new XMLHttpRequest();
         params = params.substr(0, params.length - 1);
@@ -66,36 +52,10 @@
               }
             }
             
-            if (url != Updater.googleCheckUrl) {
-              // In second round, check apps in google update store.
-              requsetUpdateManifest(Updater.googleCheckUrl, paramForGoogle);
-              console.log("Check update in Google update server.")
-            } else {
-              /*if (apps.length > 0) {
-                if (Updater.showNotification) {
-                  // Show notification.
-                  var notification = webkitNotifications.createHTMLNotification('notification.html');
-                  notification.show();
-                  Updater.showNotification = false;
-                  notification.onclose = function () {
-                    Updater.showNotification = true;
-                  };
-                }
-              }
-              // Refresh notification dialog.
-              function notify() {
-                chrome.extension.sendMessage({
-                  updates : apps,
-                  name : 'update_notifiy'
-                });
-              };
-              setTimeout(notify, 500);*/
-              
-              chrome.extension.sendMessage({
-                updates : apps,
-                name : 'update_notifiy'
-              });
-            }
+            chrome.extension.sendMessage({
+              updates : apps,
+              name : 'update_notifiy'
+            });
           }
         }
         xhr.onerror = function () {

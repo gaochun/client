@@ -17,7 +17,7 @@
   <script type="text/javascript" src="js/main.js"></script>
   <!-- Template of app item -->
   <script id="appTemplate" type="text/x-jquery-tmpl">
-    <li class="rt24-span">
+    <li class="rt24-span" appid="${app_id}">
       <div class="thumbnail rt24-thumb">
         <img src="${server_url}/bin/images/${app_id}.png" alt="">
         <div class="rt24-spec">
@@ -34,14 +34,35 @@
           </div>
         </div>
         <div class="rt24-app-des">${description}</div>
-        <div class="rt24-btn-add"><button type="button" class="btn btn-primary btn-mini" appid="${app_id}">INSTALL</button></div>
+        <div class="rt24-btn-add"><button type="button" class="btn ${btn_css} btn-mini">INSTALL</button></div>
+      </div>
+    </li>
+  </script>
+  
+  <script id="updateTmpl" type="text/x-jquery-tmpl">
+    <li class="rt24-span" appid="${app_id}">
+      <div class="thumbnail rt24-thumb">
+        <img src="${server_url}/bin/images/${app_id}.png" alt="">
+        <div class="rt24-spec">
+          <span class="rt24-title">${app_name} (v${version})</span>
+        </div>
+      </div>
+      <div class="thumbnail rt24-back-thumb">
+        <div class="rt24-app-info">
+          <img src="chrome://extension-icon/${app_id}/128/0" class="rt24-app-icon"></img>
+          <div class="rt24-app-title">
+            <div class="rt24-app-name"><span>${app_name}</span></div>
+            <div class="rt24-app-category">v${version}</div>
+          </div>
+        </div>
+        <div class="rt24-app-des">${description}</div>
+        <div class="rt24-btn-add"><button type="button" class="btn btn-warning btn-mini">UPDATE</button></div>
       </div>
     </li>
   </script>
 </head>
 
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true" screen_capture_injected="true">
-  <object id="plugin" type="application/x-appmanager" width="0" height="0"></object>
   <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
@@ -98,11 +119,12 @@
         </div>        
         <div class="rt24-app-grid">
           <div class="row-fluid">
-            <ul class="thumbnails"></ul>
+            <ul class="thumbnails" style="display:none;"></ul>
           </div>
         </div>
       </div>
     </div>
   </div>
+  <object id="plugin" type="application/x-appmanager" width="0" height="0"></object>
 </body>
 </html>
