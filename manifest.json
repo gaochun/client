@@ -1,0 +1,27 @@
+{
+  "name": "Rt24 Labs Client",
+  "version": "0.1",
+  "description": "Rt24 Labs Client.",
+  "icons": {
+    "32": "icon32.ico",
+    "128": "icon128.png"
+  },
+  "app": {
+    "launch": {
+      "local_path": "index.html"
+    }
+  },
+  "background": { "scripts": ["js/background.js"] },
+  "permissions": [
+    "management",
+
+    "notifications",
+    "unlimitedStorage",
+    "http://rt24-labs.sh.intel.com/appinfo",
+    "http://wrt-server.sh.intel.com/service/update2/crx",
+    "http://clients2.google.com/service/update2/crx",
+    "https://clients2.googleusercontent.com/crx/download/*/*"
+  ],
+  "key": "NIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCuzLxtcTDuiZr6yZ1QJdshgGWA63Z7S3SC49OuFMETryoof++ALKq8EeITulenW08+nRjSux9vfat5L46nPIiNDgyOru+yDslAHwtGHrUODjPJvmaKsai4HIsWwydowMeWFcwqRZGZiuc2KiMJh6OaotUGNiMM2vf1eQLSm1ZSpQIDAQAB"
+}
+

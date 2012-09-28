@@ -12,8 +12,33 @@
   <link href="css/doc.css" rel="stylesheet">
   <!-- Le javascript -->
   <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+  <script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
   <script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
+  
+  <script id="appTemplate" type="text/x-jquery-tmpl">
+    <li class="rt24-span">
+      <div class="thumbnail rt24-thumb">
+        <img src="image/unnamed1.jpg" alt="">
+        <div class="rt24-spec">
+          <span class="rt24-title">${app_name}</span>
+          <span class="rt24-downloads">${download_times} dowloads</span>
+        </div>
+      </div>
+      
+      <div class="thumbnail rt24-back-thumb">
+        <div class="rt24-app-info">
+          <img src="http://rt24-labs.sh.intel.com/bin/${app_id}/${icon}" class="rt24-app-icon"></img>
+          <div class="rt24-app-title">
+            <div class="rt24-app-name">${app_name}</div>
+            <div class="rt24-app-category">${category}</div>
+          </div>
+        </div>
+        <div class="rt24-app-des">${description}</div>
+        <div class="rt24-btn-add"><button type="button" class="btn btn-primary btn-mini" appid="${app_id}">INSTALL</button></div>
+      </div>
+    </li>
+  </script>
 </head>
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true" screen_capture_injected="true">
   <div class="navbar navbar-inverse navbar-fixed-top">
@@ -63,136 +88,22 @@
       <div class="span2 bs-docs-sidebar">
         <div class="nav nav-list bs-docs-sidenav well affix-top">
           <ul class="nav nav-list">
-            <li><a href="#"><strong>All</strong></a></li>
-            <li class="active"><a href="#"><strong>Popular</strong></a></li>
-            <li><a href="#"><strong>New</strong></a></li>
+            <li><a href="#" category="all"><strong>All</strong></a></li>
+            <li><a href="#" category="popular"><strong>Popular</strong></a></li>
+            <li class="active"><a href="#" category="new"><strong>New</strong></a></li>
             <li class="divider"></li>
-            <li><a href="#">Education</a></li>
-            <li><a href="#">Financial</a></li>
-            <li><a href="#">Games</a></li>
-            <li><a href="#">Health</a></li>
-            <li><a href="#">Music</a></li>
-            <li><a href="#">News and Weather</a></li>
-            <li><a href="#">Photography</a></li>
-            <li><a href="#">Productivity</a></li>
-            <li><a href="#">Shopping</a></li>
-            <li><a href="#">Social</a></li>
-            <li><a href="#">Utilities</a></li>
           </ul>
         </div>
-      </div>
-      
+      </div>      
       
       <div class="span10">
         <div class="page-header">
           <h2>Popular <small>applications</small></h2>
-        </div>
-        
+        </div>        
         <div class="rt24-app-grid">
-        
-        <div class="row-fluid">
-          <ul class="thumbnails">
-          
-          
-            <li class="rt24-span">
-              <div class="thumbnail rt24-thumb">
-                <img src="image/unnamed.jpg" alt="">
-                <div class="rt24-spec">
-                  <span><strong>Search by Image (by Google)</strong></span>
-                  <span><small>21 dowloads</small></span>
-                </div>
-              </div>
-              
-              <div class="thumbnail rt24-back-thumb">
-                <div class="rt24-app-info">
-                  <div class="rt24-app-title">
-                    <div class="rt24-app-name">Search by Image (by Google)</div>
-                    <div class="rt24-app-category">Utility</div>
-                  </div>
-                  <div class="rt24-app-icon"></div>
-                </div>
-                <div class="rt24-app-des">Birds! Slingshots! Destruction! Feathers! Fun!</div>
-                <div class="rt24-btn-add"><button type="button" class="btn btn-primary">INSTALL</button></div>
-              </div>
-            </li>
-            
-            
-            <li class="rt24-span">
-              <div class="thumbnail rt24-thumb">
-                <img src="image/unnamed1.jpg" alt="">
-                <div class="rt24-spec">
-                  <span><strong>Angry birds</strong></span>
-                  <span><small>52 dowloads</small></span>
-                </div>
-              </div>
-              
-              <div class="thumbnail rt24-back-thumb">
-                <div class="rt24-app-info">
-                  <div class="rt24-app-title">
-                    <div class="rt24-app-name">Search by Image (by Google)</div>
-                    <div class="rt24-app-category">Utility</div>
-                  </div>
-                  <div class="rt24-app-icon"></div>
-                </div>
-                <div class="rt24-app-des">Birds! Slingshots! Destruction! Feathers! Fun!</div>
-                <div class="rt24-btn-add"><button type="button" class="btn btn-primary">INSTALL</button></div>
-              </div>
-            </li>
-            <li class="rt24-span">
-              <div class="thumbnail rt24-thumb">
-                <img src="image/260x180.gif" alt="">
-                <div class="rt24-spec">
-                  <span><strong>Angry birds</strong></span>
-                  <span><small>52 dowloads</small></span>
-                </div>
-              </div>
-            </li>
-            <li class="rt24-span">
-              <div class="thumbnail rt24-thumb">
-                <img src="image/260x180.gif" alt="">
-                <div class="rt24-spec">
-                  <span><strong>Angry birds</strong></span>
-                  <span><small>52 dowloads</small></span>
-                </div>
-              </div>
-            </li>
-            <li class="rt24-span">
-              <div class="thumbnail rt24-thumb">
-                <img src="image/260x180.gif" alt="">
-                <div class="rt24-spec">
-                  <span><strong>Angry birds</strong></span>
-                  <span><small>52 dowloads</small></span>
-                </div>
-              </div>
-            </li>
-            <li class="rt24-span">
-              <div class="thumbnail rt24-thumb">
-                <img src="image/260x180.gif" alt="">
-                <div class="rt24-spec">
-                  <span><strong>Angry birds</strong></span>
-                  <span><small>52 dowloads</small></span>
-                </div>
-              </div>
-            </li>
-            <li class="rt24-span">
-              <div class="thumbnail rt24-thumb">
-                <img src="image/260x180.gif" alt="">
-                <!--div class="rt24-spec">abc</div-->
-              </div>
-            </li>
-            <li class="rt24-span">
-              <div class="thumbnail rt24-thumb">
-                <img src="image/260x180.gif" alt="">
-                <div class="rt24-spec">
-                  <span><strong>Angry birds</strong></span>
-                  <span><small>52 dowloads</small></span>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
-      
-      
+          <div class="row-fluid">
+            <ul class="thumbnails"></ul>
+          </div>
         </div>
       </div>
     </div>
