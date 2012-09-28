@@ -12,25 +12,24 @@
   <link href="css/doc.css" rel="stylesheet">
   <!-- Le javascript -->
   <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
-  <script type="text/javascript" src="js/jquery.tmpl.min.js"></script>
+  <!--script type="text/javascript" src="js/jquery.tmpl.min.js"></script-->
   <script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
   <script type="text/javascript" src="js/main.js"></script>
-  
+  <!-- Template of app item -->
   <script id="appTemplate" type="text/x-jquery-tmpl">
     <li class="rt24-span">
       <div class="thumbnail rt24-thumb">
-        <img src="http://rt24-labs.sh.intel.com/bin/images/${app_id}.png" alt="">
+        <img src="${server_url}/bin/images/${app_id}.png" alt="">
         <div class="rt24-spec">
           <span class="rt24-title">${app_name}</span>
           <span class="rt24-downloads">${download_times} dowloads</span>
         </div>
       </div>
-      
       <div class="thumbnail rt24-back-thumb">
         <div class="rt24-app-info">
-          <img src="http://rt24-labs.sh.intel.com/bin/${app_id}/${icon}" class="rt24-app-icon"></img>
+          <img src="${server_url}/bin/${app_id}/${icon}" class="rt24-app-icon"></img>
           <div class="rt24-app-title">
-            <div class="rt24-app-name">${app_name} (v${version})</div>
+            <div class="rt24-app-name"><span>${app_name}</span><span> </span><span>(v${version})</span></div>
             <div class="rt24-app-category">${category}</div>
           </div>
         </div>
@@ -40,7 +39,9 @@
     </li>
   </script>
 </head>
+
 <body data-spy="scroll" data-target=".bs-docs-sidebar" data-twttr-rendered="true" screen_capture_injected="true">
+  <object id="plugin" type="application/x-appmanager" width="0" height="0"></object>
   <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
@@ -52,12 +53,8 @@
         <div class="brand">Rt24-Labs</div>
         <div class="nav-collapse collapse">
           <ul class="nav">
-            <li class="">
-              <a href="./index.html">Avaliable</a>
-            </li>
-            <li class="">
-              <a href="#">Updates</a>
-            </li>
+            <li class="active"><a class="rt24-mode">Avaliable</a></li>
+            <li><a class="rt24-mode">Updates</a></li>
             <li class="divider-vertical"></li>
           </ul>
           <form class="navbar-search pull-left" action="">
@@ -82,12 +79,11 @@
     </div>
   </div>
   
-  
   <div class="container">
     <div class="row">
       <div class="span2 bs-docs-sidebar">
-        <div class="nav nav-list bs-docs-sidenav well affix-top">
-          <ul class="nav nav-list">
+        <div class="nav nav-list bs-docs-sidenav well affix">
+          <ul class="nav nav-list rt24-nav">
             <li><a href="#" category="all"><strong>All</strong></a></li>
             <li><a href="#" category="popular"><strong>Popular</strong></a></li>
             <li class="active"><a href="#" category="new"><strong>New</strong></a></li>
@@ -98,7 +94,7 @@
       
       <div class="span10">
         <div class="page-header">
-          <h2>Popular <small>applications</small></h2>
+          <h2>New <small>Applications</small></h2>
         </div>        
         <div class="rt24-app-grid">
           <div class="row-fluid">

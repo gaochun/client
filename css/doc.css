@@ -1,6 +1,11 @@
 body {
-position: relative;
-padding-top: 40px;
+  position: relative;
+  padding-top: 40px;
+  overflow-y: scroll;
+}
+
+.rt24-mode {
+  cursor: pointer;
 }
 
 .bs-docs-sidenav {
@@ -16,6 +21,10 @@ padding-top: 40px;
           box-shadow: 0 1px 4px rgba(0,0,0,.065);
 }
 
+.page-header h2 {
+  margin-bottom: 0;
+  padding-top: 6px;
+}
 .rt24-app-grid {
   /*border-top: 1px solid #C6C6C6;
   border-left: 1px solid #C6C6C6;*/
