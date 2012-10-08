@@ -90,7 +90,7 @@ $(function () {
       dataType: 'json',
       success: function(apps) {
         var appGrid = $('ul.thumbnails');
-        appGrid.fadeOut(100);
+        appGrid.css('display','none'); //.fadeOut(100);
         appGrid.children().remove();
         if (!apps)
           return;
@@ -164,7 +164,7 @@ $(function () {
       showUpdateBtn(apps);
     } else if (Rt24.mode == Rt24.Mode.updates) {
       var appGrid = $('ul.thumbnails');
-      appGrid.fadeOut(100);
+      appGrid.css('display','none');//.fadeOut(100);
       appGrid.children().remove();
       
       var appItems = new Array();
