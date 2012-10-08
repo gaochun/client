@@ -101,7 +101,8 @@ $(function () {
         // Bind click event of install button.
         $('.rt24-btn-add > button.btn-mini').click(onBtnInstallClick);
         
-        var header = $('<h2>'+title+' <small>'+apps.length+' Applications</small></h2>');
+        var appStr = apps.length > 1 ? ' Applications' : ' Application';
+        var header = $('<h2>'+title+' <small>'+apps.length+appStr+'</small></h2>');
         $('div.page-header').children().replaceWith(header);
         
         if (chrome && chrome.management) {
@@ -185,6 +186,10 @@ $(function () {
           }
         });
       }
+      // Head text
+      var appStr = apps.length > 1 ? ' Applications' : ' Application';
+      var header = $('<h2>Updates<small>'+apps.length+appStr+'</small></h2>');
+      $('div.page-header').children().replaceWith(header);
       
       // App images.
       for(var i in apps){
