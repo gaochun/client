@@ -11,7 +11,9 @@ $(function () {
     Css: {
       install: 'btn-success',
       update: 'btn-warning',
-      disable: 'disabled'
+      disable: 'disabled',
+      default_icon: 'default_icon.png',
+      default_image: 'default.png'
     }
   };
   
@@ -52,13 +54,20 @@ $(function () {
     var tmpl = $('#'+tmplId).html();
     for (i in data) {
       var instance = tmpl;
+      
+      if (data[i].icon == null)
+        instance = instance.replace('${app_id}/${icon}', Rt24.Css.default_icon);
+      
+      if (!data[i].has_image)
+        instance = instance.replace('${app_id}.png', Rt24.Css.default_image);
+      
       for (key in data[i]) {
         var re = new RegExp('\\${'+key+'}', 'g');
         instance = instance.replace(re, data[i][key]);
       }
       instance = instance.replace(new RegExp('\\${server_url}', 'g'), Rt24.serverUrl);
       instance = instance.replace(new RegExp('\\${btn_css}', 'g'), Rt24.Css.install);
-      $(instance).appendTo(target);
+      var item = $(instance).appendTo(target);
     }
     return target.children();
   };
