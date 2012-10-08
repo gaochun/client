@@ -86,68 +86,68 @@ $(function () {
   var loadApps = function(category, title, search) {
     // Load apps.
     $.ajax({
-        url: (search ? Rt24.appSearchUrl : Rt24.urlCheckAvailable) + category,
-        dataType: 'json',
-        success: function(apps) {
-          var appGrid = $('ul.thumbnails');
-          appGrid.fadeOut(100);
-          appGrid.children().remove();
-          if (!apps)
-            return;
-          
-          // Render the appTemplate with the "apps" data
-          renderTemplate('appTemplate', apps, appGrid).mouseenter(onMouseEnterTile);
-          
-          // Bind click event of install button.
-          $('.rt24-btn-add > button.btn-mini').click(onBtnInstallClick);
-          
-          var header = $('<h2>'+title+' <small>'+apps.length+' Applications</small></h2>');
-          $('div.page-header').children().replaceWith(header);
-          
-          if (chrome && chrome.management) {
-            chrome.management.getAll(function(apps) {
-              for (var i in apps) {
-                var btn = $('ul.thumbnails > li[appid='+apps[i].id+']').find('.btn-mini');
-                if (!btn.hasClass(Rt24.Css.update))
-                  btn.removeClass(Rt24.Css.install).addClass(Rt24.Css.disable).text('INSTALLED');
-              };
-            });
-          }
-          
-          showUpdateBtn(Rt24.updateList);
-          appGrid.fadeIn(1000);
-        },
-        error: function() { console.log('Get app failed'); }
+      url: (search ? Rt24.appSearchUrl : Rt24.urlCheckAvailable) + category,
+      dataType: 'json',
+      success: function(apps) {
+        var appGrid = $('ul.thumbnails');
+        appGrid.fadeOut(100);
+        appGrid.children().remove();
+        if (!apps)
+          return;
+        
+        // Render the appTemplate with the "apps" data
+        renderTemplate('appTemplate', apps, appGrid).mouseenter(onMouseEnterTile);
+        
+        // Bind click event of install button.
+        $('.rt24-btn-add > button.btn-mini').click(onBtnInstallClick);
+        
+        var header = $('<h2>'+title+' <small>'+apps.length+' Applications</small></h2>');
+        $('div.page-header').children().replaceWith(header);
+        
+        if (chrome && chrome.management) {
+          chrome.management.getAll(function(apps) {
+            for (var i in apps) {
+              var btn = $('ul.thumbnails > li[appid='+apps[i].id+']').find('.btn-mini');
+              if (!btn.hasClass(Rt24.Css.update))
+                btn.removeClass(Rt24.Css.install).addClass(Rt24.Css.disable).text('INSTALLED');
+            };
+          });
+        }
+        
+        showUpdateBtn(Rt24.updateList);
+        appGrid.fadeIn(1000);
+      },
+      error: function() { console.log('Get app failed'); }
     });
   };
   
   var loadCategories = function() {
     // Load categories.
     $.ajax({
-        url: 'extra/categories.json',
-        dataType: 'json',
-        success: function(categories) {
-          if (categories.length > 0) {
-            //console.log(categories);
-            var list = $('.well > .nav');
-            for (var i in categories) {
-              var item = $('<a>').appendTo($('<li>').appendTo(list))
-                .attr('category', categories[i].data)
-                .attr('href', '#')
-                .html(categories[i].name);
-            }
-            
-            // Bind click event of nav list item.
-            $("ul.rt24-nav > li > a").click(function(){
-              if (!$(this).parent().hasClass("active")) {
-                $(this).parent().parent().children().removeClass("active");
-                $(this).parent().addClass("active");
-                loadApps($(this).attr('category'), $(this).text(), false);
-              }
-            });
+      url: 'extra/categories.json',
+      dataType: 'json',
+      success: function(categories) {
+        if (categories.length > 0) {
+          //console.log(categories);
+          var list = $('.well > .nav');
+          for (var i in categories) {
+            var item = $('<a>').appendTo($('<li>').appendTo(list))
+              .attr('category', categories[i].data)
+              .attr('href', '#')
+              .html(categories[i].name);
           }
-        },
-        error: function() { console.log('Get categories failed'); }
+          
+          // Bind click event of nav list item.
+          $("ul.rt24-nav > li > a").click(function(){
+            if (!$(this).parent().hasClass("active")) {
+              $(this).parent().parent().children().removeClass("active");
+              $(this).parent().addClass("active");
+              loadApps($(this).attr('category'), $(this).text(), false);
+            }
+          });
+        }
+      },
+      error: function() { console.log('Get categories failed'); }
     });
   }
   
@@ -185,6 +185,21 @@ $(function () {
           }
         });
       }
+      
+      // App images.
+      for(var i in apps){
+        {
+          var id = apps[i].id;
+          var imageUrl = Rt24.serverUrl + '/bin/images/' + id + '.png';
+          $.ajax({
+            url: imageUrl,
+            success: function() {
+              $('ul.thumbnails > li[appid='+id+']').find('.rt24-thumb').find('img').attr('src', imageUrl);
+            },
+            error: function() {console.log('Get app failed');}
+          });
+        }
+      }
     }
     Rt24.updateList = apps;
   };
@@ -211,14 +226,6 @@ $(function () {
     }
   });
   
-  // Bind chrome events.
-  chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-    if (request.name == "update_notifiy") {
-      // Refresh app list;
-      onUpdatesNotified(request.updates);
-    }
-  });
-  
   $('.rt24-mode').click(function(){
     if ($(this).parent().hasClass('active'))
       return;
@@ -239,6 +246,32 @@ $(function () {
     }
   });
   
+  // Bind chrome events.
+  chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+    if (request.name == "update_notifiy") {
+      // Refresh app list;
+      onUpdatesNotified(request.updates);
+    }
+  });
+  
+  chrome.management.onInstalled.addListener(function(info) {
+    if (!info.isApp)
+      return;
+    
+    $('ul.thumbnails > li[appid='+info.id+']').find('.btn-mini')
+      .removeClass(Rt24.Css.install)
+      .removeClass(Rt24.Css.update)
+      .addClass(Rt24.Css.disable)
+      .text('INSTALLED');
+  });
+  
+  chrome.management.onUninstalled.addListener(function(id) {
+    $('ul.thumbnails > li[appid='+id+']').find('.btn-mini')
+      .removeClass(Rt24.Css.disable)
+      .removeClass(Rt24.Css.update)
+      .addClass(Rt24.Css.install)
+      .text('INSTALL');
+  });
   
   loadCategories();
   loadApps('new', 'New', false);
