@@ -2,6 +2,7 @@ $(function () {
   var Rt24 = {
     serverUrl: "http://wrt-server.sh.intel.com",
     urlCheckAvailable: "http://wrt-server.sh.intel.com/appinfo?category=",
+    appSearchUrl: "http://wrt-server.sh.intel.com/appinfo?search=",
     mode: "available",
     Mode: {
       available: "available",
@@ -82,23 +83,24 @@ $(function () {
     }
   };
   
-  var loadApps = function(category, title) {
+  var loadApps = function(category, title, search) {
     // Load apps.
     $.ajax({
-        url: Rt24.urlCheckAvailable+category,
+        url: (search ? Rt24.appSearchUrl : Rt24.urlCheckAvailable) + category,
         dataType: 'json',
         success: function(apps) {
           var appGrid = $('ul.thumbnails');
           appGrid.fadeOut(100);
           appGrid.children().remove();
-          if (apps.length > 0) {
-            // Render the appTemplate with the "apps" data
-            renderTemplate('appTemplate', apps, appGrid).mouseenter(onMouseEnterTile);
-          }
+          if (!apps)
+            return;
+          
+          // Render the appTemplate with the "apps" data
+          renderTemplate('appTemplate', apps, appGrid).mouseenter(onMouseEnterTile);
           
           // Bind click event of install button.
           $('.rt24-btn-add > button.btn-mini').click(onBtnInstallClick);
-    
+          
           var header = $('<h2>'+title+' <small>'+apps.length+' Applications</small></h2>');
           $('div.page-header').children().replaceWith(header);
           
@@ -140,7 +142,7 @@ $(function () {
               if (!$(this).parent().hasClass("active")) {
                 $(this).parent().parent().children().removeClass("active");
                 $(this).parent().addClass("active");
-                loadApps($(this).attr('category'), $(this).text());
+                loadApps($(this).attr('category'), $(this).text(), false);
               }
             });
           }
@@ -187,6 +189,28 @@ $(function () {
     Rt24.updateList = apps;
   };
   
+  var searchApp = function(keyword) {
+    // Clear search result when keyword is empty.
+    if (keyword == '') {
+      if (Rt24.mode == Rt24.Mode.available) {
+        var item = $('ul.rt24-nav > li.active').children();
+        var category = item.attr('category');
+        var title = item.html();
+        loadApps(category, title, false);
+      } else if (Rt24.mode == Rt24.Mode.updates) {
+        loadUpdates();
+      }
+    } else
+      loadApps(keyword, 'Search Result', true);
+  };
+  
+  // Bind search event
+  $('input.search-query').keydown(function(event){
+    if(event.keyCode == 13){
+      searchApp($(this).val());
+    }
+  });
+  
   // Bind chrome events.
   chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.name == "update_notifiy") {
@@ -203,12 +227,12 @@ $(function () {
     $(this).parent().addClass("active");
     var index = $(this).parent().index();
     if (index == 0) {
-      Rt24.mode = Rt24.Mode.avaliable;
+      Rt24.mode = Rt24.Mode.available;
       
       var item = $('ul.rt24-nav > li.active').children();
       var category = item.attr('category');
       var title = item.html();
-      loadApps(category, title);
+      loadApps(category, title, false);
     } else if (index == 1) {
       Rt24.mode = Rt24.Mode.updates;
       loadUpdates();
@@ -217,6 +241,6 @@ $(function () {
   
   
   loadCategories();
-  loadApps('new', 'New');
+  loadApps('new', 'New', false);
   loadUpdates();
 });
