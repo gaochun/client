@@ -196,8 +196,8 @@ body {
   width: 100%;
 }
 
-.rt24-btn-add button {
-  width: 70px;
+.rt24-btn-add .btn-mini {
+  width: 72px;
 }
 
 .row-fluid .rt24-thumb  img{
