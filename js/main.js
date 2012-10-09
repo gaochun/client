@@ -97,7 +97,12 @@ $(function () {
       }
       instance = instance.replace(new RegExp('\\${server_url}', 'g'), Rt24.serverUrl);
       instance = instance.replace(new RegExp('\\${btn_css}', 'g'), btnCss);
-      var btnText = (btnCss == Rt24.Css.install ? 'INSTALL' : (btnCss == Rt24.Css.update ? 'UPDATE' : 'INSTALLED'));
+      var btnText = 'DOWNLOAD';
+      if (isClient) {
+        btnText = (btnCss == Rt24.Css.install ? 'INSTALL' : (btnCss == Rt24.Css.update ? 'UPDATE' : 'INSTALLED'));
+        instance = instance.replace(new RegExp('\\${bin_url}', 'g'), 'javascript:void(0)');
+      } else
+        instance = instance.replace(new RegExp('\\${bin_url}', 'g'), '/bin/'+data[i].app_id+'/'+data[i].url);
       instance = instance.replace(new RegExp('\\${btn_text}', 'g'), btnText);
       $(instance).appendTo(target).mouseenter(onMouseEnterTile);
     }
@@ -128,7 +133,8 @@ $(function () {
         renderTemplate('appTemplate', apps, appGrid, Rt24.Css.install);
         
         // Bind click event of install button.
-        $('.rt24-btn-add > button.btn-mini').click(onBtnInstallClick);
+        if (isClient)
+          $('.rt24-btn-add > .btn-mini').click(onBtnInstallClick);
         
         var appStr = apps.length > 1 ? ' Applications' : ' Application';
         var header = $('<h2>'+title+' <small>'+apps.length+appStr+'</small></h2>');
