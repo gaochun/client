@@ -1,6 +1,6 @@
 {
   "name": "Rt24 Labs Client",
-  "version": "0.1",
+  "version": "2.0",
   "description": "Rt24 Labs Client.",
   "icons": {
     "32": "icon32.ico",
@@ -24,6 +24,6 @@
   ],
   "manifest_version": 2,
   "plugins": [{ "path": "npAppManager.dll" }],
-  "key": "NIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCuzLxtcTDuiZr6yZ1QJdshgGWA63Z7S3SC49OuFMETryoof++ALKq8EeITulenW08+nRjSux9vfat5L46nPIiNDgyOru+yDslAHwtGHrUODjPJvmaKsai4HIsWwydowMeWFcwqRZGZiuc2KiMJh6OaotUGNiMM2vf1eQLSm1ZSpQIDAQAB"
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQC6ACmuBwTZa4S7O9PflbHrAQjkrWpoA6B005CTznaC9lyQDYh7pUUPcojFNbNYrVq2jT6uUewZjE2XmVew0SYb/fKXqiXACcYr907B60IkFuGMxJ5rN9YaQGOVNPXqLl/zM7RPPxMylZJooHnmZIOXR22lcxGVT6qU7/0aGFsKYQIDAQAB"
 }
 
