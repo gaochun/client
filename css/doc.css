@@ -34,6 +34,23 @@ body {
   margin-bottom: 0;
   padding-top: 6px;
 }
+
+.loading {
+  height: 200px;
+  width: 90%;
+}
+
+.loading .spinner{
+  width: 100%;
+  height: 100%;
+  top: 0;
+  background: transparent url(../image/loader.gif) no-repeat 50% 50%;
+  -webkit-transition: all 300ms ease;
+  -moz-transition: all 300ms ease;
+  -o-transition: all 300ms ease;
+  transition: all 300ms ease;
+}
+
 .rt24-app-grid {
   /*border-top: 1px solid #C6C6C6;
   border-left: 1px solid #C6C6C6;*/

@@ -58,6 +58,9 @@ $(function () {
     $(this).parent().parent().children().removeClass("active");
     $(this).parent().addClass("active");
     
+    // Show Spiner
+    $('.loading').show();
+    
     // Clear current items.
     var appGrid = $('ul.thumbnails');
     appGrid.css('display','none');//.fadeOut(100);
@@ -117,8 +120,6 @@ $(function () {
       dataType: 'json',
       success: function(apps) {
         var appGrid = $('ul.thumbnails');
-        appGrid.css('display','none'); //.fadeOut(100);
-        appGrid.children().remove();
         if (!apps)
           return;
         
@@ -141,7 +142,7 @@ $(function () {
             };
           });
         }
-        
+        $('.loading').hide();
         showUpdateBtn(Rt24.updateList);
         appGrid.fadeIn(1000);
       },
@@ -164,6 +165,7 @@ $(function () {
         appItems.push(appItem);
       };
       var appGrid = $('ul.thumbnails');
+      $('.loading').hide();
       renderTemplate('updateTmpl', appItems, appGrid, Rt24.Css.disable);
       appGrid.fadeIn();
       
@@ -195,6 +197,7 @@ $(function () {
         appItems.push(appItem);
         if (++count == apps.length) {
           var appGrid = $('ul.thumbnails');
+          $('.loading').hide();
           renderTemplate('updateTmpl', appItems, appGrid, Rt24.Css.update);
           appGrid.fadeIn();
           
@@ -267,8 +270,13 @@ $(function () {
   };
   
   var searchApp = function(keyword) {
-    // Clear search result when keyword is empty.
+    // Clear current items.
+    var appGrid = $('ul.thumbnails');
+    appGrid.css('display','none');//.fadeOut(100);
+    appGrid.children().remove();
+    
     if (keyword == '') {
+      // Clear search result when keyword is empty.
       if (Rt24.mode == Rt24.Mode.available) {
         var item = $('ul.rt24-nav > li.active').children();
         var category = item.attr('category');
