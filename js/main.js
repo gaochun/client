@@ -1,8 +1,9 @@
 $(function () {
+  var isClient = (typeof chrome != 'undefined') && (typeof chrome.management != 'undefined');
   var Rt24 = {
-    serverUrl: "http://wrt-server.sh.intel.com",
-    urlCheckAvailable: "http://wrt-server.sh.intel.com/appinfo?category=",
-    appSearchUrl: "http://wrt-server.sh.intel.com/appinfo?search=",
+    serverUrl: isClient ? 'http://wrt-server.sh.intel.com' : '',
+    urlCheckAvailable: (isClient ? 'http://wrt-server.sh.intel.com' : '') + '/appinfo?category=',
+    appSearchUrl: (isClient ? 'http://wrt-server.sh.intel.com' : '') + '/appinfo?search=',
     mode: "available",
     Mode: {
       available: "available",
@@ -133,7 +134,7 @@ $(function () {
         var header = $('<h2>'+title+' <small>'+apps.length+appStr+'</small></h2>');
         $('div.page-header').children().replaceWith(header);
         
-        if (chrome && chrome.management) {
+        if (isClient) {
           chrome.management.getAll(function(apps) {
             for (var i in apps) {
               var btn = $('ul.thumbnails > li[appid='+apps[i].id+']').find('.btn-mini');
@@ -151,6 +152,8 @@ $(function () {
   };
   
   var loadInstalled = function() {
+    if (!isClient)
+      return;
     chrome.management.getAll(function(apps) {
       var appItems = new Array();
       for (var i in apps) {
@@ -239,7 +242,6 @@ $(function () {
           for (var i in categories) {
             var item = $('<a>').appendTo($('<li>').appendTo(list))
               .attr('category', categories[i].data)
-              .attr('href', '#')
               .html(categories[i].name);
           }
           
@@ -253,7 +255,8 @@ $(function () {
   
   var checkUpdates = function() {
     // Let background.js to check update
-    chrome.extension.sendMessage({name: 'check_update'});
+    if (isClient)
+      chrome.extension.sendMessage({name: 'check_update'});
   };
 
   var onUpdatesNotified = function(apps) {
@@ -319,52 +322,62 @@ $(function () {
   }); */
   
   // Bind chrome events.
-  chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
-    if (request.name == "update_notifiy") {
-      // Refresh app list;
-      onUpdatesNotified(request.updates);
-    }
-  });
-  
-  chrome.management.onInstalled.addListener(function(info) {
-    if (!info.isApp)
-      return;
+  if (isClient) {
+    chrome.extension.onMessage.addListener(function(request, sender, sendResponse) {
+      if (request.name == "update_notifiy") {
+        // Refresh app list;
+        onUpdatesNotified(request.updates);
+      }
+    });
     
-    if (Rt24.mode == Rt24.Mode.available) {
-      $('ul.thumbnails > li[appid='+info.id+']').find('.btn-mini')
-      .removeClass(Rt24.Css.install)
-      .removeClass(Rt24.Css.update)
-      .addClass(Rt24.Css.disable)
-      .text('INSTALLED');
-    } else {
-      var appItems = new Array();
-      var appItem = {
-        app_id: info.id,
-        app_name: info.name,
-        version: info.version,
-        description: info.description,
-        server_url: Rt24.serverUrl
-      };
-      appItems.push(appItem);
-      var appGrid = $('ul.thumbnails');
-      renderTemplate('updateTmpl', appItems, appGrid, Rt24.Css.disable);
-      loadImage(info);
-    }
-  });
-  
-  chrome.management.onUninstalled.addListener(function(id) {
-    if (Rt24.mode == Rt24.Mode.available) {
-      $('ul.thumbnails > li[appid='+id+']').find('.btn-mini')
-      .removeClass(Rt24.Css.disable)
-      .removeClass(Rt24.Css.update)
-      .addClass(Rt24.Css.install)
-      .text('INSTALL');
-    } else {
-      $('ul.thumbnails > li[appid='+id+']').remove();
-    }
-  });
+    chrome.management.onInstalled.addListener(function(info) {
+      if (!info.isApp)
+        return;
+      
+      if (Rt24.mode == Rt24.Mode.available) {
+        $('ul.thumbnails > li[appid='+info.id+']').find('.btn-mini')
+        .removeClass(Rt24.Css.install)
+        .removeClass(Rt24.Css.update)
+        .addClass(Rt24.Css.disable)
+        .text('INSTALLED');
+      } else {
+        var appItems = new Array();
+        var appItem = {
+          app_id: info.id,
+          app_name: info.name,
+          version: info.version,
+          description: info.description,
+          server_url: Rt24.serverUrl
+        };
+        appItems.push(appItem);
+        var appGrid = $('ul.thumbnails');
+        renderTemplate('updateTmpl', appItems, appGrid, Rt24.Css.disable);
+        loadImage(info);
+      }
+    });
+    
+    chrome.management.onUninstalled.addListener(function(id) {
+      if (Rt24.mode == Rt24.Mode.available) {
+        $('ul.thumbnails > li[appid='+id+']').find('.btn-mini')
+        .removeClass(Rt24.Css.disable)
+        .removeClass(Rt24.Css.update)
+        .addClass(Rt24.Css.install)
+        .text('INSTALL');
+      } else {
+        $('ul.thumbnails > li[appid='+id+']').remove();
+      }
+    });
+  }
   
   loadCategories();
   loadApps('new', 'New', false);
-  checkUpdates();
+  
+  if (isClient) {
+    checkUpdates();
+    $('.rt24-page-elem').hide();
+    $('.rt24-client-elem').show();
+  } else {
+    $('.rt24-page-elem').show();
+    $('.rt24-client-elem').hide();
+  }
 });

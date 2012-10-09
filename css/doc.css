@@ -51,6 +51,9 @@ body {
   transition: all 300ms ease;
 }
 
+.rt24-nav > li > a {
+  cursor: pointer;
+}
 .rt24-app-grid {
   /*border-top: 1px solid #C6C6C6;
   border-left: 1px solid #C6C6C6;*/
