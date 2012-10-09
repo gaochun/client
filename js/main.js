@@ -372,6 +372,17 @@ $(function () {
   loadCategories();
   loadApps('new', 'New', false);
   
+  function getCookie(c_name) {
+    var i,x,y,ARRcookies=document.cookie.split(";");
+    for (i=0;i<ARRcookies.length;i++) {
+      x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
+      y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
+      x = x.replace(/^\s+|\s+$/g,"");
+      if (x == c_name)
+        return unescape(y);
+    }
+  }
+  
   if (isClient) {
     checkUpdates();
     $('.rt24-page-elem').hide();
@@ -379,5 +390,20 @@ $(function () {
   } else {
     $('.rt24-page-elem').show();
     $('.rt24-client-elem').hide();
+    var userName = getCookie('username');
+    if (userName == null) {
+      $('.dropdown').hide();
+    } else {
+      var items = $('.navbar-fixed-top').find('ul.nav').children();
+      items.eq(2).hide();
+      items.eq(3).hide();
+      $('li.dropdown > a').html('@' + userName + '<b class="caret"></b>');
+      $("#signOutBtn").click(function () {
+        $.post("/user", {action : "sign_out"}, function (data) {
+          if (data.url)
+            location.href = data.url;
+        });
+      });
+    }
   }
 });
