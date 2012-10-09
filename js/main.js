@@ -267,6 +267,11 @@ $(function () {
     if (Rt24.mode == Rt24.Mode.available) {
       showUpdateBtn(apps);
     } else if (Rt24.mode == Rt24.Mode.updates) {
+      // Clear current items.
+      var appGrid = $('ul.thumbnails');
+      appGrid.css('display','none');//.fadeOut(100);
+      appGrid.children().remove();
+    
       loadUpdates(apps);
     }
     Rt24.updateList = apps;
