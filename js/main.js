@@ -223,6 +223,12 @@ $(function () {
     var appStr = apps.length > 1 ? ' Applications' : ' Application';
     var header = $('<h2>Updates <small>'+apps.length+appStr+'</small></h2>');
     $('div.page-header').children().replaceWith(header);
+    
+    if (apps.length == 0) {
+      $('.loading').hide();
+      $('ul.thumbnails').fadeIn();
+    }
+    
   };
   
   var loadImage = function(appinfo) {
