@@ -80,9 +80,8 @@ $(document).ready(function () {
         delCookie('username');
         location.href = data.url;
       } else {
-        for (var i = 0; i < data.length; i++) {
+        for (var i = 0; i < data.length; i++)
           UserApps.insertAppitem(data[i]);
-        };
         $('.loading').fadeOut('slow');
       }
     });
@@ -91,8 +90,9 @@ $(document).ready(function () {
     location.href = "index.html";
   });
   
-  var username = getCookie("username");
-  $('button.username').html(username);
+  var userName = getCookie('username');
+  if (userName != null)
+    $('.dropdown > a').html('@' + userName + '<b class="caret"></b>');
   
   $('#uploadBtn').click(function () {
     // this is used for distinguish whether it is update or new
@@ -109,12 +109,12 @@ $(document).ready(function () {
   
   $('#deployBtn').click(function () {
     // Advoid the second click the deploy btn.
-    if ($('#aIframe').contents().find("p").html() == "true") {
+    if ($('#aIframe').contents().find("p").html() == "true")
       return;
-    }
-    if ($('#zipFile').val() == "") {
+      
+    if ($('#zipFile').val() == "")
       return;
-    }
+    
     var btn = $(this);
     btn.button('loading');
     $('#uploadModal>.modal-footer>button[data-dismiss="modal"]').attr('disabled', 'disabled');
@@ -134,7 +134,6 @@ $(document).ready(function () {
   
   $('input[id=file-field]').change(function () {
     $('#zipFile').val($(this).val());
-    
   });
   
   $.ajax({
@@ -142,9 +141,8 @@ $(document).ready(function () {
     dataType : 'json',
     success : function (data) {
       var ul = $('<ul>').appendTo($('nav.categories'));
-      for (i in data) {
+      for (i in data)
         $('<option>').attr('value', data[i].data).html(data[i].name).appendTo($('#deploy-combo'));
-      }
     },
     error : function () {
       console.log('Get categories failed');
@@ -155,9 +153,8 @@ $(document).ready(function () {
     $.post("/user", {
       action : "sign_out"
     }, function (data) {
-      if (data.url) {
+      if (data.url)
         location.href = data.url;
-      }
     });
   });
   
@@ -178,8 +175,4 @@ $(document).ready(function () {
     $('div.input-append').css('display', 'none');
     $('input[id=file-field]').css('display', 'block');
   }
-  
-  var userName = getCookie('username');
-  if (userName != null)
-    $('.dropdown > a').html('@' + userName + '<b class="caret"></b>');
 });

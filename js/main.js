@@ -1,9 +1,9 @@
 $(function () {
   var isClient = (typeof chrome != 'undefined') && (typeof chrome.management != 'undefined');
   var Rt24 = {
-    serverUrl: isClient ? 'http://wrt-server.sh.intel.com' : '',
-    urlCheckAvailable: (isClient ? 'http://wrt-server.sh.intel.com' : '') + '/appinfo?category=',
-    appSearchUrl: (isClient ? 'http://wrt-server.sh.intel.com' : '') + '/appinfo?search=',
+    serverUrl: isClient ? 'http://rt24-labs.sh.intel.com' : '',
+    urlCheckAvailable: (isClient ? 'http://rt24-labs.sh.intel.com' : '') + '/appinfo?category=',
+    appSearchUrl: (isClient ? 'http://rt24-labs.sh.intel.com' : '') + '/appinfo?search=',
     mode: "available",
     Mode: {
       available: "available",
