@@ -208,6 +208,49 @@ body {
           border-radius: 3px;
 }
 
+.jumbotron {
+  position: relative;
+  padding: 20px 0;
+  color: #fff;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0,0,0,.4), 0 0 30px rgba(0,0,0,.075);
+  background: #020031; /* Old browsers */
+  background: -moz-linear-gradient(45deg,  #020031 0%, #6d3353 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#020031), color-stop(100%,#6d3353)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(45deg,  #020031 0%,#6d3353 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(45deg,  #020031 0%,#6d3353 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(45deg,  #020031 0%,#6d3353 100%); /* IE10+ */
+  background: linear-gradient(45deg,  #020031 0%,#6d3353 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#020031', endColorstr='#6d3353',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+  -webkit-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+     -moz-box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+          box-shadow: inset 0 3px 7px rgba(0,0,0,.2), inset 0 -3px 7px rgba(0,0,0,.2);
+}
+.jumbotron h1 {
+  font-size: 40px;
+  font-weight: bold;
+  letter-spacing: -1px;
+  line-height: 1;
+  text-align: left;
+  padding-left: 10px;
+}
+.jumbotron p {
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 30px;
+  margin-bottom: 10px;
+  text-align: left;
+  padding-left: 100px;
+}
+.jumbotron a {
+  color: white;
+  cursor: pointer;
+}
+.jumbotron a:active {
+  color: gray;
+}
+
+
 /* Responsive
 -------------------------------------------------- */
 
@@ -219,6 +262,10 @@ body {
   }
   .bs-docs-sidenav {
     width: 180px;
+  }
+  
+  .bs-docs-sidenav.affix {
+    top: 40px;
   }
 }
 
@@ -239,11 +286,30 @@ body {
     margin: 5px;
   }
 
-  /* When affixed, space properly */
-  .bs-docs-sidenav {
-    top: 0;
-    margin-top: 30px;
-    margin-right: 0;
+  .bs-docs-sidenav.affix {
+    top: 40px;
+  }
+}
+
+/* Desktop
+------------------------- */
+@media (min-width: 980px) and (max-width: 1200px) {
+  /* Unfloat brand */
+  body > .navbar-fixed-top .brand {
+    float: left;
+    margin-left: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  /* Inline-block quick links for more spacing */
+  .quick-links li {
+    display: inline-block;
+    margin: 5px;
+  }
+
+  .bs-docs-sidenav.affix {
+    top: 40px;
   }
 }
 
@@ -260,7 +326,7 @@ body {
   }
   /* Adjust sidenav width */
   .bs-docs-sidenav {
-    width: auto;
+    width: 110px;
     margin-top: 20px;
   }
   
@@ -279,7 +345,7 @@ body {
 
   /* Widen masthead and social buttons to fill body padding */
   .jumbotron {
-    padding: 40px 20px;
+    padding: 0;
     margin-top:   -20px; /* Offset bottom margin on .navbar */
     margin-right: -20px;
     margin-left:  -20px;
