@@ -2,7 +2,7 @@ Updater = {
   firstDetectTime : 10 * 1000, /*10s after start runtime*/
   timeInterval : 60 * 60 * 1000, /*1 hour.*/
   timeoutValue : 5 * 1000,
-  checkUrl: "http://wrt-server.sh.intel.com/check_update",
+  checkUrl: "http://rt24-labs.sh.intel.com/check_update",
   showNotification : true,
   
   checkUpdate : function (manual) {
