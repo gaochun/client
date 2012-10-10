@@ -410,7 +410,11 @@ $(function () {
     checkUpdates();
     $('.rt24-page-elem').hide();
     $('.rt24-client-elem').show();
-    $('ul.rt24-nav').parent().addClass('affix');
+    $('.bs-docs-sidenav').affix({
+      offset: {
+        top: function () { return $(window).width() <= 980 ? 70 : 1 }
+      }
+    });
   } else {
     $('.rt24-page-elem').show();
     $('.rt24-client-elem').hide();
