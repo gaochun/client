@@ -19,7 +19,7 @@
   <script id="appTemplate" type="text/x-jquery-tmpl">
     <li class="rt24-span" appid="${app_id}">
       <div class="thumbnail rt24-thumb">
-        <img src="${server_url}/bin/images/${app_id}.png" alt="">
+        <img src="${server_url}/${image_path}/${app_id}.png" alt="">
         <div class="rt24-spec">
           <span class="rt24-title">${app_name}</span>
           <span class="rt24-downloads">${download_times} dowloads</span>
@@ -42,7 +42,7 @@
   <script id="updateTmpl" type="text/x-jquery-tmpl">
     <li class="rt24-span" appid="${app_id}">
       <div class="thumbnail rt24-thumb">
-        <img src="${server_url}/bin/images/${app_id}.png" alt="">
+        <img src="${server_url}/${image_path}/${app_id}.png" alt="">
         <div class="rt24-spec">
           <span class="rt24-title">${app_name} (v${version})</span>
         </div>
