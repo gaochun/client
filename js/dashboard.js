@@ -8,10 +8,8 @@ UserApps = {
     UserApps.apps.push(item);
     
     var row = $('<tr></tr>');
-    var appicon = $("<img />").attr({
-        src : '/bin/' + item.app_id + '/' + item.icon
-      });
-    appicon.addClass("appicon");
+    var iconPath = item.icon ? 'bin/' + item.app_id + '/' + item.icon : 'image/default_icon.png';
+    var appicon = $("<img />").attr('src', iconPath).addClass("appicon");
     $('<td style="min-width: 54px;"></td>').html(appicon).appendTo(row);
     $('<td></td>').html(item.app_name).appendTo(row);
     $('<td></td>').html(item.version).appendTo(row);
