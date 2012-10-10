@@ -410,9 +410,12 @@ $(function () {
     checkUpdates();
     $('.rt24-page-elem').hide();
     $('.rt24-client-elem').show();
+    $('ul.rt24-nav').parent().addClass('affix');
   } else {
     $('.rt24-page-elem').show();
     $('.rt24-client-elem').hide();
+    $('.jumbotron').show()
+    
     var userName = getCookie('username');
     if (userName == null) {
       $('.dropdown').hide();
@@ -428,5 +431,11 @@ $(function () {
         });
       });
     }
+    
+    $('.bs-docs-sidenav').affix({
+      offset: {
+        top: function () { return $(window).width() <= 980 ? 190 : 140 }
+      }
+    });
   }
 });
