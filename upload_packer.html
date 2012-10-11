@@ -1,0 +1,35 @@
+<html>
+<head>
+<title>Upload webapp_packer.exe</title>
+<script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#btn-upload').click(function() {
+		if ($('#file-field').val() != '') {
+			$('#upload-form').attr('action', 'WebAppServer/update_packer');
+			$('#upload-form').submit();
+			$(this).val('deploying...');
+			$(this).attr("disabled","disabled");
+		}
+    })	
+    $('#aIframe').load(function() {
+        var data = JSON.parse($(this).contents().find("pre").html());
+        if (data.result == true)
+            alert('Re-deploy succeed')
+        else
+            alert('Re-deploy failed')
+		$('#btn-upload').val('upload');
+		$('#btn-upload').removeAttr("disabled");
+    });
+});
+</script>
+</head>
+<body>
+<h1>Upload webapp_packer.exe</h1>
+<form name="upload-form" id="upload-form" method="post" enctype="multipart/form-data" target="aIframe">
+File :<input type="file" id="file-field" name="upload" multiple="multiple"><br>
+<input type="button" id="btn-upload" value="upload"/>
+</form>
+<iframe name="aIframe" id="aIframe" src="about:blank" height=0 width=0 style="display:none;"> </iframe>
+</body>
+</html>
