@@ -29,8 +29,13 @@ UserApps = {
       var index = $(this).parent().parent()[0].rowIndex - 1;
       UserApps.indexToBeUpdated = index;
       $('#uploadModalLabel').html("App update: " + UserApps.apps[index].app_name);
-      $('#uploadModal').modal("show");
       $('#deploy-combo').val(UserApps.apps[index].category);
+      $('div[class="alert alert-error"]').hide();
+      $('#uploadModal').modal({
+        keyboard : false,
+        backdrop : "static",
+        show : true
+      });
     });
   },
   
@@ -97,15 +102,17 @@ $(document).ready(function () {
     UserApps.indexToBeUpdated = -1;
     $('#uploadModalLabel').html("Deploy a new app");
     $('#deploy-combo').val("education");
+    $('div[class="alert alert-error"]').hide();
     $('#uploadModal').modal({
       keyboard : false,
       backdrop : "static",
       show : true
     });
-    $('div[class="modal-backdrop fade in"]').attr('disabled', 'disabled');
   });
   
   $('#deployBtn').click(function () {
+    $('div[class="alert alert-error"]').hide();
+    
     // Advoid the second click the deploy btn.
     if ($('#aIframe').contents().find("p").html() == "true")
       return;

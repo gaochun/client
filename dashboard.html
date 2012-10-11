@@ -14,16 +14,17 @@
     function uploadDone() {
       $('div[class="alert alert-success"]').fadeOut();
       $('div[class="alert alert-error"]').fadeOut();
-      $('#deployBtn').button('reset');
       if ($('#aIframe').contents().find("p").html() == "false") {
         var errorMessage = $('#aIframe').contents().find("div").html();
         $('div[class="alert alert-error"]').html('<strong>Failed! </strong>' + errorMessage);
         $('div[class="alert alert-error"]').fadeIn();
         $('#uploadModal>.modal-footer>button[data-dismiss="modal"]').removeAttr('disabled');
         $('#uploadModal>.modal-header>button[data-dismiss="modal"]').removeAttr('disabled');
+        $('#deployBtn').button('reset');
       } else if ($('#aIframe').contents().find("p").html() == "true") {
         $('div[class="alert alert-success"]').fadeIn();
-        setTimeout(function() { top.location.href=top.location.href; }, 1000);
+        $('#deployBtn').html('Upload');
+        setTimeout(function() {top.location.href = top.location.href;}, 1500);
       }
     }
   </script>
