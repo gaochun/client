@@ -211,6 +211,7 @@ $(function () {
       var appGrid = $('ul.thumbnails');
       $('.loading').hide();
       renderTemplate('updateTmpl', appItems, appGrid, Rt24.Css.disable);
+      $('.rt24-btn-add > .btn-mini').click(onBtnInstallClick);
       appGrid.fadeIn();
       
       // Head text
@@ -243,6 +244,7 @@ $(function () {
           var appGrid = $('ul.thumbnails');
           $('.loading').hide();
           renderTemplate('updateTmpl', appItems, appGrid, Rt24.Css.update);
+          $('.rt24-btn-add > .btn-mini').click(onBtnInstallClick);
           appGrid.fadeIn();
           
           // App images.
@@ -311,7 +313,7 @@ $(function () {
     $('.rt24-nav').find('a[category=updates]').children().eq(0).html('Updates('+count+')');
     //$('div.navbar-fixed-top').find('ul.nav').children().eq(1).children().html('Updates('+count+')');
     
-    if (Rt24.mode == Rt24.Mode.available) {
+    if (Rt24.mode == Rt24.Mode.available || Rt24.mode == Rt24.Mode.installed) {
       showUpdateBtn(apps);
     } else if (Rt24.mode == Rt24.Mode.updates) {
       // Clear current items.
@@ -386,13 +388,7 @@ $(function () {
       if (!info.isApp)
         return;
       
-      if (Rt24.mode == Rt24.Mode.available) {
-        $('ul.thumbnails > li[appid='+info.id+']').find('.btn-mini')
-        .removeClass(Rt24.Css.install)
-        .removeClass(Rt24.Css.update)
-        .addClass(Rt24.Css.disable)
-        .text('INSTALLED');
-      } else {
+      if (Rt24.mode == Rt24.Mode.installed && $('ul.thumbnails > li[appid='+info.id+']').length == 0) {
         var appItems = new Array();
         var appItem = {
           app_id: info.id,
@@ -405,6 +401,12 @@ $(function () {
         var appGrid = $('ul.thumbnails');
         renderTemplate('updateTmpl', appItems, appGrid, Rt24.Css.disable);
         loadImage(info);
+      } else if (Rt24.mode != Rt24.Mode.update) {
+        $('ul.thumbnails > li[appid='+info.id+']').find('.btn-mini')
+        .removeClass(Rt24.Css.install)
+        .removeClass(Rt24.Css.update)
+        .addClass(Rt24.Css.disable)
+        .text('INSTALLED');
       }
     });
     
