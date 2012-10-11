@@ -24,11 +24,25 @@ $(function () {
   var onMouseEnterTile = function() {
     var sender = $(this);
     var timeout = setTimeout(function() {
+      if ($.browser.msie) {
+        var opened = sender.attr('opened');
+        if (typeof opened != 'undefined' && opened == 'true') {
+          $(".row-fluid .rt24-span").unbind('mouseleave', onmouseleave);
+          return;
+        }
+      }
       var left = $(this).width() + 6;
       sender.find(".rt24-thumb").animate({left: left+'px'}, 150);
     }, 300);
     
     var onmouseleave = function(){
+      if ($.browser.msie) {
+        var opened = sender.attr('opened');
+        if (typeof opened != 'undefined' && opened == 'true') {
+          $(".row-fluid .rt24-span").unbind('mouseleave', onmouseleave);
+          return;
+        }
+      }
       sender.find(".rt24-thumb").animate({left: 0}, 150);
       clearTimeout(timeout);
       $(".row-fluid .rt24-span").unbind('mouseleave', onmouseleave);
@@ -36,6 +50,18 @@ $(function () {
     
     $(".row-fluid .rt24-span").bind('mouseleave', onmouseleave);
   };
+  
+  var onClickTileInIE = function() {
+    var sender = $(this);
+    var a = sender.parent().find('.rt24-span[opened=true][appid!='+sender.attr('appid')+']')
+      .removeAttr('opened')
+      .find(".rt24-thumb")
+      .animate({left: 0}, 150);
+    
+    var left = $(this).width() + 6;
+    sender.attr('opened', 'true');
+    sender.find(".rt24-thumb").animate({left: left+'px'}, 150);
+  }
   
   var onBtnInstallClick = function() {
     if ($(this).hasClass(Rt24.Css.disable))
@@ -110,7 +136,10 @@ $(function () {
       } else
         instance = instance.replace(new RegExp('\\${bin_url}', 'g'), '/bin/'+data[i].app_id+'/'+data[i].url);
       instance = instance.replace(new RegExp('\\${btn_text}', 'g'), btnText);
-      $(instance).appendTo(target).mouseenter(onMouseEnterTile);
+      var tile = $(instance).appendTo(target).mouseenter(onMouseEnterTile);
+      
+      if ($.browser.msie)
+        tile.click(onClickTileInIE);
     }
     return target.children();
   };
