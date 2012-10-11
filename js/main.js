@@ -138,9 +138,14 @@ $(function () {
       instance = instance.replace(new RegExp('\\${btn_text}', 'g'), btnText);
       var tile = $(instance).appendTo(target).mouseenter(onMouseEnterTile);
       
+      // Bind click event of install button.
+      if (isClient)
+        tile.find('.btn-mini').click(onBtnInstallClick);
+        
       if ($.browser.msie)
         tile.click(onClickTileInIE);
     }
+
     return target.children();
   };
   
@@ -167,9 +172,7 @@ $(function () {
         // Render the appTemplate with the "apps" data
         renderTemplate('appTemplate', apps, appGrid, Rt24.Css.install);
         
-        // Bind click event of install button.
-        if (isClient)
-          $('.rt24-btn-add > .btn-mini').click(onBtnInstallClick);
+        
         
         var appStr = apps.length > 1 ? ' Applications' : ' Application';
         var header = $('<h2>'+title+' <small>'+apps.length+appStr+'</small></h2>');
@@ -211,7 +214,6 @@ $(function () {
       var appGrid = $('ul.thumbnails');
       $('.loading').hide();
       renderTemplate('updateTmpl', appItems, appGrid, Rt24.Css.disable);
-      $('.rt24-btn-add > .btn-mini').click(onBtnInstallClick);
       appGrid.fadeIn();
       
       // Head text
@@ -244,7 +246,6 @@ $(function () {
           var appGrid = $('ul.thumbnails');
           $('.loading').hide();
           renderTemplate('updateTmpl', appItems, appGrid, Rt24.Css.update);
-          $('.rt24-btn-add > .btn-mini').click(onBtnInstallClick);
           appGrid.fadeIn();
           
           // App images.
