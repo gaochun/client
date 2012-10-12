@@ -8,7 +8,7 @@ UserApps = {
     UserApps.apps.push(item);
     
     var row = $('<tr></tr>');
-    var iconPath = item.icon ? 'bin/' + item.app_id + '/' + item.icon : 'image/default_icon.png';
+    var iconPath = item.icon ? '/bin/' + item.app_id + '/' + item.icon : 'image/default_icon.png';
     var appicon = $("<img />").attr('src', iconPath).addClass("appicon");
     $('<td style="min-width: 54px;"></td>').html(appicon).appendTo(row);
     $('<td></td>').html(item.app_name).appendTo(row);
@@ -41,7 +41,7 @@ UserApps = {
   
   // remove the seleceted app
   removeAppitem : function (i) {
-    $.post("/user", {
+    $.post("user", {
       action : "remove",
       app_id : UserApps.apps[i].app_id
     }, function (data) {
@@ -73,7 +73,7 @@ function getCookie(c_name) {
 }
 
 $(document).ready(function () {
-  var getUserApps = $.post("/user", {
+  var getUserApps = $.post("user", {
       action : "get_user_apps"
     }, function (data) {
       if (data.url) {
@@ -127,11 +127,11 @@ $(document).ready(function () {
     
     if (UserApps.indexToBeUpdated == -1) {
       // New app
-      $('#deploy-form').attr('action', '/user?action=deploy&category=' + $('#deploy-combo').val());
+      $('#deploy-form').attr('action', 'user?action=deploy&category=' + $('#deploy-combo').val());
       $('#deploy-form').submit();
     } else if (UserApps.indexToBeUpdated >= 0 && UserApps.indexToBeUpdated < UserApps.apps.length) {
       // update the selected app
-      $('#deploy-form').attr('action', '/user?action=deploy&category=' + $('#deploy-combo').val()
+      $('#deploy-form').attr('action', 'user?action=deploy&category=' + $('#deploy-combo').val()
          + '&uuid=' + UserApps.apps[UserApps.indexToBeUpdated].app_id);
       $('#deploy-form').submit();
     }
@@ -155,7 +155,7 @@ $(document).ready(function () {
   });
   
   $("#signOutBtn").click(function () {
-    $.post("/user", {
+    $.post("user", {
       action : "sign_out"
     }, function (data) {
       if (data.url)

@@ -2,8 +2,8 @@ $(function () {
   var isClient = (typeof chrome != 'undefined') && (typeof chrome.management != 'undefined');
   var Rt24 = {
     serverUrl: isClient ? 'http://rt24-labs.sh.intel.com' : '',
-    urlCheckAvailable: (isClient ? 'http://rt24-labs.sh.intel.com' : '') + '/appinfo?category=',
-    appSearchUrl: (isClient ? 'http://rt24-labs.sh.intel.com' : '') + '/appinfo?search=',
+    urlCheckAvailable: (isClient ? 'http://rt24-labs.sh.intel.com' : '.') + '/appinfo?category=',
+    appSearchUrl: (isClient ? 'http://rt24-labs.sh.intel.com' : '.') + '/appinfo?search=',
     appImagePath: 'bin/images',
     defaultImagePath: 'image',
     mode: "available",
@@ -117,7 +117,7 @@ $(function () {
         instance = instance.replace('bin/${app_id}/${icon}', Rt24.defaultImagePath + '/' + Rt24.Css.default_icon);
       
       if (!data[i].has_image) {
-        instance = instance.replace('${image_path}', Rt24.defaultImagePath);
+        instance = instance.replace('/${image_path}', Rt24.defaultImagePath);
         instance = instance.replace('${app_id}.png', Rt24.Css.default_image);
       } else
         instance = instance.replace('${image_path}', Rt24.appImagePath);
