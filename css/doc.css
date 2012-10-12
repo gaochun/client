@@ -35,6 +35,19 @@ body {
   padding-top: 6px;
 }
 
+.rt24-download-icon {
+  margin-top: -5px;
+  width: 36px;
+  height: 36px;
+  opacity: 0.9;
+}
+.rt24-download-icon:hover {
+  opacity: 1;
+}
+.rt24-download-icon:active {
+  opacity: 0.5;
+}
+
 .loading {
   height: 200px;
   width: 90%;
