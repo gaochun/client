@@ -10,10 +10,16 @@ body {
 }
 
 #logo {
-  background:url(../image/intel-logo.png) no-repeat;
-  margin: 6px 0 0 10px;
-  width: 60px;
-  height: 30px;
+  margin: 0 28px 0 10px;
+  width: 32px;
+  height: 37px;
+  padding:0;
+}
+#logo-text {
+  background:url(../image/otc-logo-text.png) no-repeat;
+  margin-top: 4px;
+  width: 205px;
+  height: 31px;
   padding:0;
 }
 
@@ -253,16 +259,23 @@ body {
   line-height: 30px;
   margin-bottom: 10px;
   text-align: left;
-  padding-left: 100px;
+  padding-left: 12px;
 }
-.jumbotron a {
+/*.jumbotron a {
   color: white;
   cursor: pointer;
 }
 .jumbotron a:active {
   color: gray;
+}*/
+.jumbotron p  a{
+  color: white;
+  font-size: 0.8em;
+  float: right;
+  margin-right: 20px;
+  text-align: right;
+  width: 190px;
 }
-
 
 /* Responsive
 -------------------------------------------------- */
