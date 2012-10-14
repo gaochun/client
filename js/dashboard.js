@@ -8,7 +8,7 @@ UserApps = {
     UserApps.apps.push(item);
     
     var row = $('<tr></tr>');
-    var iconPath = item.icon ? '/bin/' + item.app_id + '/' + item.icon : 'image/default_icon.png';
+    var iconPath = item.icon ? './bin/' + item.app_id + '/' + item.icon : 'image/default_icon.png';
     var appicon = $("<img />").attr('src', iconPath).addClass("appicon");
     $('<td style="min-width: 54px;"></td>').html(appicon).appendTo(row);
     $('<td></td>').html(item.app_name).appendTo(row);
@@ -31,6 +31,8 @@ UserApps = {
       $('#uploadModalLabel').html("App update: " + UserApps.apps[index].app_name);
       $('#deploy-combo').val(UserApps.apps[index].category);
       $('div[class="alert alert-error"]').hide();
+      $('#deployBtn').attr('isUpdate', 'true');
+      $('#deployBtn').text('update');
       $('#uploadModal').modal({
         keyboard : false,
         backdrop : "static",
@@ -103,6 +105,8 @@ $(document).ready(function () {
     $('#uploadModalLabel').html("Deploy a new app");
     $('#deploy-combo').val("education");
     $('div[class="alert alert-error"]').hide();
+    $('#deployBtn').attr('isUpdate', 'false');
+    $('#deployBtn').text('upload');
     $('#uploadModal').modal({
       keyboard : false,
       backdrop : "static",
@@ -116,9 +120,13 @@ $(document).ready(function () {
     // Advoid the second click the deploy btn.
     if ($('#aIframe').contents().find("p").html() == "true")
       return;
-      
-    if ($('#zipFile').val() == "")
+    
+    var isUpdate = $(this).attr('isUpdate');
+    if (isUpdate == "false" && $('#zipFile').val() == "") {
+      $('div[class="alert alert-error"]').html('<strong>Zip file was not chosed!</strong>');
+      $('div[class="alert alert-error"]').fadeIn();
       return;
+    }
     
     var btn = $(this);
     btn.button('loading');
@@ -138,7 +146,14 @@ $(document).ready(function () {
   });
   
   $('input[id=file-field]').change(function () {
-    $('#zipFile').val($(this).val());
+    var fakePath = $(this).val();
+    var fileName = fakePath.substring(fakePath.lastIndexOf('\\')+1);
+    $('#zipFile').val(fileName);
+  });
+  $('input[id=app-image]').change(function () {
+    var fakePath = $(this).val();
+    var fileName = fakePath.substring(fakePath.lastIndexOf('\\')+1);
+    $('#appImage').val(fileName);
   });
   
   $.ajax({
@@ -173,11 +188,14 @@ $(document).ready(function () {
     (navigator.userAgent.indexOf('Safari') >= 0 && navigator.userAgent.indexOf('Chrome') == -1)) {
     $('#file-field').css('display', 'block');
     $('#file-field').css('visibility', 'hidden');
+    $('#app-image').css('display', 'block');
+    $('#app-image').css('visibility', 'hidden');
   }
   // For Compatibility of IE. because the IE doesn't allow manipulation
   // of the type="file" input element from javascript due to security reasons.
   if (navigator.userAgent.toLowerCase().match(/msie ([\d.]+)/)) {
     $('div.input-append').css('display', 'none');
     $('input[id=file-field]').css('display', 'block');
+    $('input[id=app-image]').css('display', 'block');
   }
 });

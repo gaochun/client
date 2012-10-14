@@ -1,10 +1,10 @@
 $(function () {
   var isClient = (typeof chrome != 'undefined') && (typeof chrome.management != 'undefined');
   var Rt24 = {
-    serverUrl: isClient ? 'http://rt24-labs.sh.intel.com' : '',
+    serverUrl: isClient ? 'http://rt24-labs.sh.intel.com' : '.',
     urlCheckAvailable: (isClient ? 'http://rt24-labs.sh.intel.com' : '.') + '/appinfo?category=',
     appSearchUrl: (isClient ? 'http://rt24-labs.sh.intel.com' : '.') + '/appinfo?search=',
-    appImagePath: 'bin/images',
+    appImagePath: 'bin',
     defaultImagePath: 'image',
     mode: "available",
     Mode: {
@@ -16,8 +16,7 @@ $(function () {
       install: 'btn-success',
       update: 'btn-warning',
       disable: 'disabled',
-      default_icon: 'default_icon.png',
-      default_image: 'default.png'
+      default_icon: 'default_icon.png'
     }
   };
   
@@ -116,11 +115,10 @@ $(function () {
       if (data[i].icon == null)
         instance = instance.replace('bin/${app_id}/${icon}', Rt24.defaultImagePath + '/' + Rt24.Css.default_icon);
       
-      if (!data[i].has_image) {
-        instance = instance.replace('/${image_path}', Rt24.defaultImagePath);
-        instance = instance.replace('${app_id}.png', Rt24.Css.default_image);
-      } else
-        instance = instance.replace('${image_path}', Rt24.appImagePath);
+      if (!data[i].has_image)
+        instance = instance.replace('${image_path}', Rt24.defaultImagePath);
+      else
+        instance = instance.replace('${image_path}', Rt24.appImagePath+'/'+data[i].app_id);
         
       
       for (key in data[i]) {
@@ -270,7 +268,7 @@ $(function () {
   };
   
   var loadImage = function(appinfo) {
-    var imageUrl = Rt24.serverUrl + '/bin/images/' + appinfo.id + '.png';
+    var imageUrl = Rt24.serverUrl + '/bin/' + appinfo.id + '/cover.png';
     $.ajax({
       url: imageUrl,
       success: function() {
@@ -461,7 +459,7 @@ $(function () {
       items.eq(3).hide();
       $('li.dropdown > a').html('@' + userName + '<b class="caret"></b>');
       $("#signOutBtn").click(function () {
-        $.post("/user", {action : "sign_out"}, function (data) {
+        $.post("user", {action : "sign_out"}, function (data) {
           if (data.url)
             location.href = data.url;
         });

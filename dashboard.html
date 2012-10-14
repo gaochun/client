@@ -112,12 +112,21 @@
             <td width="20%"><select id="deploy-combo"></select></td>
           </tr>
           <tr>
+            <td><label for="zip">App Image(Optional)</label></td>
+            <td>
+                <input id="app-image" type="file" style="display: none;" multiple="multiple" name="image" accept="image/x-png">
+            <div class="input-append">
+              <input id="appImage" class="input-large" type="text" onclick="$('input[id=app-image]').click();" />
+              <a class="btn" onclick="$('input[id=app-image]').click();">Browse...</a>
+            </div></td>
+          </tr>
+          <tr>
             <td><label for="zip">Zip File</label></td>
             <td>
-            <input id="file-field" type="file" style="display: none;" multiple="multiple" name="upload">
+                <input id="file-field" type="file" style="display: none;" multiple="multiple" name="upload" accept="application/x-zip-compressed">
             <div class="input-append">
               <input id="zipFile" class="input-large" type="text" onclick="$('input[id=file-field]').click();" />
-              <a class="btn" onclick="$('input[id=file-field]').click();">Browse</a>
+              <a class="btn" onclick="$('input[id=file-field]').click();">Browse...</a>
             </div></td>
           </tr>
         </table>
