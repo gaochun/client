@@ -11,7 +11,7 @@ body {
 
 #logo {
   margin: 0 28px 0 10px;
-  width: 32px;
+  width: 30px;
   height: 37px;
   padding:0;
 }
@@ -274,7 +274,7 @@ body {
   float: right;
   margin-right: 20px;
   text-align: right;
-  width: 190px;
+  width: 200px;
 }
 
 /* Responsive
