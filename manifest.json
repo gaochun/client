@@ -1,6 +1,6 @@
 {
   "name": "Rt24 Labs Client",
-  "version": "2.0",
+  "version": "2.1",
   "description": "Rt24 Labs Client.",
   "icons": {
     "32": "icon32.ico",
@@ -14,13 +14,9 @@
   "background": { "scripts": ["js/background.js"] },
   "permissions": [
     "management",
-
     "notifications",
     "unlimitedStorage",
-    "http://rt24-labs.sh.intel.com/appinfo",
-    "http://wrt-server.sh.intel.com/service/update2/crx",
-    "http://clients2.google.com/service/update2/crx",
-    "https://clients2.googleusercontent.com/crx/download/*/*"
+    "http://rt24-labs.sh.intel.com/*"
   ],
   "manifest_version": 2,
   "plugins": [{ "path": "npAppManager.dll" }],
