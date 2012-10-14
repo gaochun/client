@@ -216,7 +216,7 @@ $(function () {
       
       // Head text
       var appStr = apps.length > 1 ? ' Applications' : ' Application';
-      var header = $('<h2>Updates <small>'+apps.length+appStr+'</small></h2>');
+      var header = $('<h2>My Apps <small>'+apps.length+appStr+'</small></h2>');
       $('div.page-header').children().replaceWith(header);
       
       // App images.      
