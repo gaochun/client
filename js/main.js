@@ -79,6 +79,21 @@ $(function () {
     //$(this).next().next().show();
   };
   
+  var onBtnDownloadClick = function() {
+    var thumb = $(this).parent().parent().prev();
+    var downloadTxt = thumb.find('.rt24-downloads');
+    var appid = thumb.parent().attr('appid');
+    $.ajax({
+      url: './appinfo?download='+appid,
+      dataType: 'json',
+      success: function(data) {
+        var txt = data.result + (data.result > 1 ? ' downloads' : ' dowload');
+        downloadTxt.html(txt);
+      },
+      error: function() {console.log('Add download times failed');}
+    });
+  };
+  
   var onNavListItemClick = function(){
     if ($(this).parent().hasClass("active"))
       return;
@@ -125,6 +140,8 @@ $(function () {
         var re = new RegExp('\\${'+key+'}', 'g');
         instance = instance.replace(re, data[i][key]);
       }
+      var downloadText = data[i].download_times > 1 ? 'downloads' : 'download';
+      instance = instance.replace(new RegExp('\\${download_text}', 'g'), downloadText);
       instance = instance.replace(new RegExp('\\${server_url}', 'g'), Rt24.serverUrl);
       instance = instance.replace(new RegExp('\\${btn_css}', 'g'), btnCss);
       var btnText = 'DOWNLOAD';
@@ -139,6 +156,8 @@ $(function () {
       // Bind click event of install button.
       if (isClient)
         tile.find('.btn-mini').click(onBtnInstallClick);
+      else
+        tile.find('.btn-mini').click(onBtnDownloadClick);
         
       if ($.browser.msie)
         tile.click(onClickTileInIE);
@@ -189,7 +208,7 @@ $(function () {
         showUpdateBtn(Rt24.updateList);
         appGrid.fadeIn(1000);
       },
-      error: function() { console.log('Get app info failed'); }
+      error: function() {console.log('Get app info failed');}
     });
   };
   
@@ -297,7 +316,7 @@ $(function () {
           $("ul.rt24-nav > li > a").click(onNavListItemClick);
         }
       },
-      error: function() { console.log('Get categories failed'); }
+      error: function() {console.log('Get categories failed');}
     });
   }
   
@@ -442,7 +461,7 @@ $(function () {
     $('.rt24-client-elem').show();
     $('.bs-docs-sidenav').affix({
       offset: {
-        top: function () { return $(window).width() <= 980 ? 70 : 1 }
+        top: function () {return $(window).width() <= 980 ? 70 : 1}
       }
     });
   } else {
@@ -468,7 +487,7 @@ $(function () {
     
     $('.bs-docs-sidenav').affix({
       offset: {
-        top: function () { return $(window).width() <= 980 ? 190 : 140 }
+        top: function () {return $(window).width() <= 980 ? 190 : 140}
       }
     });
   }
