@@ -132,7 +132,7 @@ $(function () {
         btnText = (btnCss == Rt24.Css.install ? 'INSTALL' : (btnCss == Rt24.Css.update ? 'UPDATE' : 'INSTALLED'));
         instance = instance.replace(new RegExp('\\${bin_url}', 'g'), 'javascript:void(0)');
       } else
-        instance = instance.replace(new RegExp('\\${bin_url}', 'g'), '/bin/'+data[i].app_id+'/'+data[i].url);
+        instance = instance.replace(new RegExp('\\${bin_url}', 'g'), './bin/'+data[i].app_id+'/'+data[i].url);
       instance = instance.replace(new RegExp('\\${btn_text}', 'g'), btnText);
       var tile = $(instance).appendTo(target).mouseenter(onMouseEnterTile);
       
