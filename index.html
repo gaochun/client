@@ -81,7 +81,7 @@
         <div class="nav-collapse collapse">
           <ul class="nav pull-right">
             <li class="divider-vertical"></li>
-            <li><a href="mailto:chun.gao@intel.com">Contact</a></li>
+            <li><a data-toggle="modal" href="#aboutModal">About</a></li>
             <li class="divider-vertical rt24-page-elem"></li>
             <li class="rt24-page-elem"><a href="signin.html">Login</a></li>
             <li class="divider-vertical rt24-page-elem"></li>
@@ -144,6 +144,27 @@
           </div>
         </div>
       </div>
+    </div>
+  </div>
+  
+  <div class="modal hide fade in" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">About</h3>
+    </div>
+    <div class="modal-body">
+      <p>Welcome to the pre-POC test for Runtime 24 (RT24).  RT24 is Intel's web runtime for Windows 7 and 8 desktop (not Metro) and is based on Chromium.  On this "Labs" page, you'll see several sample applications.  The “Labs” isn't an application store, it's just a web site where we can host these sample applications.  In an actual product, applications could be hosted anywhere, including AppUp 1.0, or download.com or on a developer's own web site.</p>
+      <p>Applications in RT24 are 'wrapped' in a micro-installer that results in a .exe file.  So you'll see that RT24 applications install, launch and are managed largely like native applications.  The micro-installer for the apps checks to see if RT24 itself is already on your system, and if it is not, RT24 is then automatically downloaded.  So your first RT24 application install will take longer than subsequent installations. </p>
+      <p>In the next few weeks, as our POC test expands to more people within Intel, we expect to add an issue tracker to our POC.  For now, if you find problems or have suggestions, please email us: <a href="mailto:grace.lian@intel.com">grace.lian@intel.com</a> and <a href="mailto:max.j.domeika@intel.com">max.j.domeika@intel.com</a>.</p>
+      <p>Please remember that RT24 is still strictly confidential and not for discussion outside of Intel.  If you think you need to disclose RT24, contact <a href="mailto:michael.s.richmond@intel.com">michael.s.richmond@intel.com</a>.  Also, please do not pass the link you were given to access RT24 to others even within Intel at this time.  We'll open the POC to others soon.</p>
+      <p>Thanks again for testing RT24… we hope you like it as much as we do!</p>
+      <br>
+      <p style="float: right;text-align: right:">The RT24 Team</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">
+        Close
+      </button>
     </div>
   </div>
   <object id="plugin" type="application/x-appmanager" width="0" height="0"></object>
