@@ -15,18 +15,29 @@ $(document).ready(function () {
       $('div[class="alert alert-error"]').fadeIn();
       return;
     }
-    $.post(_url, {
-      action : "sign_in",
-      username : _username,
-      password : _password
-    }, function (data) {
-      if (data.Success) {
-        location.href = data.url;
-      } else {
-        $('div[class="alert alert-error"]').html("<strong>Warning!</strong> Username or password is wrong.");
-        $('div[class="alert alert-error"]').fadeIn();
-      }
-    }, 'json');
+    $.post(
+      'user',
+      {action: 'random_code'},
+      function (code) {
+        $.post(
+          _url, {
+            action : 'sign_in',
+            username : _username,
+            password : hex_md5(hex_md5(_password) + code)
+          },
+          function (data) {
+            if (data.Success)
+              location.href = data.url;
+            else {
+              $('div[class="alert alert-error"]').html("<strong>Warning!</strong> Username or password is wrong.");
+              $('div[class="alert alert-error"]').fadeIn();
+            }
+          },
+          'json'
+        );
+      },
+      'json'
+    );
   });
 });
 

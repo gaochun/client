@@ -23,11 +23,22 @@ $(document).ready(function () {
       return;
     }
     
+    if (_password != _confirm_password) {
+      $('div[class="alert alert-error"]').html('<strong>Warning!</strong> Password and confirmed password do not match');
+      $('div[class="alert alert-error"]').fadeIn();
+      return;
+    }
+    
+    if (_password.length < 6 || _password.length > 20) {
+      $('div[class="alert alert-error"]').html('<strong>Warning!</strong> The Password should longer than 6 and lesser than 20');
+      $('div[class="alert alert-error"]').fadeIn();
+      return;
+    }
+    
     $.post(_url, {
       action : "sign_up",
       username : _username,
-      password : _password,
-      confirm_password : _confirm_password
+      password : hex_md5(_password)
     }, function (data) {
       if (data.Success) {
         $('div[class="alert alert-error"]').removeClass('alert-error')
