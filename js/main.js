@@ -82,8 +82,14 @@ $(function () {
     if ($(this).hasClass(Rt24.Css.disable))
       return;
     var name = $(this).parent().prev().prev().find('.rt24-app-name').children().eq(0).html();
-    var version = $(this).parent().prev().prev().find('.rt24-app-name').children().eq(2).html();
-    version = version.substr(2, version.length - 3);
+    var version;
+    if (Rt24.mode == Rt24.Mode.updates) {
+      version = $(this).parent().prev().prev().find('.rt24-app-category').html();
+      version = version.substr(1, version.length - 1);
+    } else {
+      version = $(this).parent().prev().prev().find('.rt24-app-name').children().eq(2).html();
+      version = version.substr(2, version.length - 3);
+    }
     var appid = $(this).parent().parent().parent().attr('appid');
     var url = Rt24.serverUrl + '/bin/' + appid + '/' + version + '/' + appid + '.crx';
     document.getElementById('plugin').install(url, name, function(result) {
