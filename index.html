@@ -32,7 +32,7 @@
       </div>
       <div class="thumbnail rt24-back-thumb">
         <div class="rt24-app-info">
-          <img src="${server_url}/bin/${app_id}/${icon}" class="rt24-app-icon"></img>
+          <img src="${server_url}/bin/${app_id}/${version}/${icon}" class="rt24-app-icon"></img>
           <div class="rt24-app-title">
             <div class="rt24-app-name"><span>${app_name}</span><span> </span><span>(v${version})</span></div>
             <div class="rt24-app-category">${category}</div>
@@ -147,13 +147,13 @@
     </div>
   </div>
   
-  <div class="modal hide fade in" id="aboutModal" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
+  <div class="modal hide fade in" id="aboutModal" style="width:700px;top:46%;left:46%" tabindex="-1" role="dialog" aria-labelledby="uploadModalLabel" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3 id="myModalLabel">About</h3>
+      <h3 id="myModalLabel">Welcome to Runtime 24 Labs</h3>
     </div>
-    <div class="modal-body">
-      <p>Welcome to the pre-POC test for Runtime 24 (RT24).  RT24 is Intel's web runtime for Windows 7 and 8 desktop (not Metro) and is based on Chromium.  On this "Labs" page, you'll see several sample applications.  The “Labs” isn't an application store, it's just a web site where we can host these sample applications.  In an actual product, applications could be hosted anywhere, including AppUp 1.0, or download.com or on a developer's own web site.</p>
+    <div class="modal-body" style="max-height: 500px;">
+      <p>Welcome to the pre-POC test for runtime 24 (RT24). RT24 is Intel's web runtime for Windows 7 and 8 desktop (not Metro) and is based on Chromium.  On this "Labs" page, you'll see several sample applications.  The “Labs” isn't an application store, it's just a web site where we can host these sample applications.  In an actual product, applications could be hosted anywhere, including AppUp 1.0, or download.com or on a developer's own web site.</p>
       <p>Applications in RT24 are 'wrapped' in a micro-installer that results in a .exe file.  So you'll see that RT24 applications install, launch and are managed largely like native applications.  The micro-installer for the apps checks to see if RT24 itself is already on your system, and if it is not, RT24 is then automatically downloaded.  So your first RT24 application install will take longer than subsequent installations. </p>
       <p>In the next few weeks, as our POC test expands to more people within Intel, we expect to add an issue tracker to our POC.  For now, if you find problems or have suggestions, please email us: <a href="mailto:grace.lian@intel.com">grace.lian@intel.com</a> and <a href="mailto:max.j.domeika@intel.com">max.j.domeika@intel.com</a>.</p>
       <p>Please remember that RT24 is still strictly confidential and not for discussion outside of Intel.  If you think you need to disclose RT24, contact <a href="mailto:michael.s.richmond@intel.com">michael.s.richmond@intel.com</a>.  Also, please do not pass the link you were given to access RT24 to others even within Intel at this time.  We'll open the POC to others soon.</p>

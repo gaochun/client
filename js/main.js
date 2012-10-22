@@ -4,6 +4,7 @@ $(function () {
     serverUrl: isClient ? 'http://rt24-labs.sh.intel.com' : '.',
     urlCheckAvailable: (isClient ? 'http://rt24-labs.sh.intel.com' : '.') + '/appinfo?category=',
     appSearchUrl: (isClient ? 'http://rt24-labs.sh.intel.com' : '.') + '/appinfo?search=',
+    downloadTimesUrl: (isClient ? 'http://rt24-labs.sh.intel.com' : '.') + '/appinfo?download=',
     appImagePath: 'bin',
     defaultImagePath: 'image',
     mode: "available",
@@ -62,12 +63,29 @@ $(function () {
     sender.find(".rt24-thumb").animate({left: left+'px'}, 150);
   }
   
+  var incDownloadTimes = function(btn) {
+    var thumb = btn.parent().parent().prev();
+    var downloadTxt = thumb.find('.rt24-downloads');
+    var appid = thumb.parent().attr('appid');
+    $.ajax({
+      url: Rt24.downloadTimesUrl + appid,
+      dataType: 'json',
+      success: function(data) {
+        var txt = data.result + (data.result > 1 ? ' downloads' : ' dowload');
+        downloadTxt.html(txt);
+      },
+      error: function() {console.log('Add download times failed');}
+    });
+  }
+  
   var onBtnInstallClick = function() {
     if ($(this).hasClass(Rt24.Css.disable))
       return;
     var name = $(this).parent().prev().prev().find('.rt24-app-name').children().eq(0).html();
+    var version = $(this).parent().prev().prev().find('.rt24-app-name').children().eq(2).html();
+    version = version.substr(2, version.length - 3);
     var appid = $(this).parent().parent().parent().attr('appid');
-    var url = Rt24.serverUrl + '/bin/' + appid + '/' + appid + '.crx';
+    var url = Rt24.serverUrl + '/bin/' + appid + '/' + version + '/' + appid + '.crx';
     document.getElementById('plugin').install(url, name, function(result) {
       if (!result) {
         /*var installBtn = $('div.btn-install[appid='+btnInstall.attr('appid')+']').show();
@@ -77,21 +95,12 @@ $(function () {
     })
     //$(this).hide();
     //$(this).next().next().show();
+    
+    incDownloadTimes($(this));
   };
   
   var onBtnDownloadClick = function() {
-    var thumb = $(this).parent().parent().prev();
-    var downloadTxt = thumb.find('.rt24-downloads');
-    var appid = thumb.parent().attr('appid');
-    $.ajax({
-      url: './appinfo?download='+appid,
-      dataType: 'json',
-      success: function(data) {
-        var txt = data.result + (data.result > 1 ? ' downloads' : ' dowload');
-        downloadTxt.html(txt);
-      },
-      error: function() {console.log('Add download times failed');}
-    });
+    incDownloadTimes($(this));
   };
   
   var onNavListItemClick = function(){
@@ -127,6 +136,9 @@ $(function () {
     for (i in data) {
       var instance = tmpl;
       
+      if (data[i].description == null)
+        data[i].description = "No description";
+      
       if (data[i].icon == null)
         instance = instance.replace('bin/${app_id}/${icon}', Rt24.defaultImagePath + '/' + Rt24.Css.default_icon);
       
@@ -149,7 +161,7 @@ $(function () {
         btnText = (btnCss == Rt24.Css.install ? 'INSTALL' : (btnCss == Rt24.Css.update ? 'UPDATE' : 'INSTALLED'));
         instance = instance.replace(new RegExp('\\${bin_url}', 'g'), 'javascript:void(0)');
       } else
-        instance = instance.replace(new RegExp('\\${bin_url}', 'g'), './bin/'+data[i].app_id+'/'+data[i].url);
+        instance = instance.replace(new RegExp('\\${bin_url}', 'g'), './bin/'+data[i].app_id+'/'+data[i].version+'/'+data[i].url);
       instance = instance.replace(new RegExp('\\${btn_text}', 'g'), btnText);
       var tile = $(instance).appendTo(target).mouseenter(onMouseEnterTile);
       
@@ -235,7 +247,7 @@ $(function () {
       
       // Head text
       var appStr = apps.length > 1 ? ' Applications' : ' Application';
-      var header = $('<h2>My Apps <small>'+apps.length+appStr+'</small></h2>');
+      var header = $('<h2>Updates <small>'+apps.length+appStr+'</small></h2>');
       $('div.page-header').children().replaceWith(header);
       
       // App images.      
@@ -276,7 +288,7 @@ $(function () {
     }
     // Head text
     var appStr = apps.length > 1 ? ' Applications' : ' Application';
-    var header = $('<h2>Updates <small>'+apps.length+appStr+'</small></h2>');
+    var header = $('<h2>My Apps <small>'+apps.length+appStr+'</small></h2>');
     $('div.page-header').children().replaceWith(header);
     
     if (apps.length == 0) {
@@ -445,14 +457,21 @@ $(function () {
   loadApps('new', 'New', false);
   
   function getCookie(c_name) {
-    var i,x,y,ARRcookies=document.cookie.split(";");
-    for (i=0;i<ARRcookies.length;i++) {
+    var i, x, y, ARRcookies = document.cookie.split(";");
+    for (i=0; i<ARRcookies.length; i++) {
       x = ARRcookies[i].substr(0, ARRcookies[i].indexOf("="));
       y = ARRcookies[i].substr(ARRcookies[i].indexOf("=") + 1);
       x = x.replace(/^\s+|\s+$/g,"");
       if (x == c_name)
         return unescape(y);
     }
+  }
+  
+  function setCookie(c_name, value, exdays) {
+    var exdate =new Date();
+    exdate.setDate(exdate.getDate() + exdays);
+    var c_value = escape(value) + ((exdays == null) ? "" : "; expires=" + exdate.toUTCString());
+    document.cookie = c_name + "=" + c_value;
   }
   
   if (isClient) {
@@ -490,5 +509,11 @@ $(function () {
         top: function () {return $(window).width() <= 980 ? 190 : 140}
       }
     });
+    
+    var isVisited = getCookie('visited');
+    if (isVisited == null || isVisited != 'true') {
+      $('#aboutModal').modal();
+      setCookie('visited', 'true', 10000);
+    }
   }
 });
